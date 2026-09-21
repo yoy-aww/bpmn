@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  id="Definitions_LeaveRequest"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <bpmn:process id="leave_request" name="请假申请流程" isExecutable="true">
+    <bpmn:startEvent id="Start_Leave" name="提交申请">
+      <bpmn:outgoing>Flow_ToMgr</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:userTask id="Task_MgrApproval" name="经理审批">
+      <bpmn:incoming>Flow_ToMgr</bpmn:incoming>
+      <bpmn:outgoing>Flow_ToHR</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="Task_HRProcess" name="HR处理">
+      <bpmn:incoming>Flow_ToHR</bpmn:incoming>
+      <bpmn:outgoing>Flow_ToEnd</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:endEvent id="End_Leave" name="完成">
+      <bpmn:incoming>Flow_ToEnd</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_ToMgr" sourceRef="Start_Leave" targetRef="Task_MgrApproval"/>
+    <bpmn:sequenceFlow id="Flow_ToHR" sourceRef="Task_MgrApproval" targetRef="Task_HRProcess"/>
+    <bpmn:sequenceFlow id="Flow_ToEnd" sourceRef="Task_HRProcess" targetRef="End_Leave"/>
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="Diagram_LeaveRequest">
+    <bpmndi:BPMNPlane id="Plane_LeaveRequest" bpmnElement="leave_request">
+      <bpmndi:BPMNShape id="Start_Leave_di" bpmnElement="Start_Leave">
+        <dc:Bounds x="100" y="150" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_MgrApproval_di" bpmnElement="Task_MgrApproval">
+        <dc:Bounds x="200" y="128" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_HRProcess_di" bpmnElement="Task_HRProcess">
+        <dc:Bounds x="360" y="128" width="100" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Leave_di" bpmnElement="End_Leave">
+        <dc:Bounds x="520" y="150" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_ToMgr_di" bpmnElement="Flow_ToMgr">
+        <biom:waypoint xsi:type="dc:Point" x="136" y="168"/>
+        <biom:waypoint xsi:type="dc:Point" x="200" y="168"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ToHR_di" bpmnElement="Flow_ToHR">
+        <biom:waypoint xsi:type="dc:Point" x="300" y="168"/>
+        <biom:waypoint xsi:type="dc:Point" x="360" y="168"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_ToEnd_di" bpmnElement="Flow_ToEnd">
+        <biom:waypoint xsi:type="dc:Point" x="460" y="168"/>
+        <biom:waypoint xsi:type="dc:Point" x="520" y="168"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

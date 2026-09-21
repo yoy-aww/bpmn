@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  flowable:
+    build:
+      context: ./infra/flowable-app
+      dockerfile: Dockerfile
+    image: flowable-app:latest
+    container_name: flowable-app
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=jdbc:mysql://mysql:3306/flowable?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - DB_USERNAME=flowable
+      - DB_PASSWORD=***
+      - DB_DRIVER=com.mysql.cj.jdbc.Driver
+      - DB_SCHEMA_UPDATE=true
+      - FLOWABLE_CHECK_ASYNC_EXECUTION_QUERIES=false
+      - LOG_LEVEL=INFO
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  mysql:
+    image: mysql:8.0
+    container_name: flowable-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=***
+      - MYSQL_DATABASE=flowable
+      - MYSQL_USER=flowable
+      - MYSQL_PASSWORD=***
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
+
+volumes:
+  mysql_data:

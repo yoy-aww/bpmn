@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  id="Definitions_OrderApproval"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <bpmn:process id="order_approval" name="订单审批流程" isExecutable="true">
+    <!-- 开始事件 -->
+    <bpmn:startEvent id="Start_Order" name="收到订单">
+      <bpmn:outgoing>Flow_ToReview</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <!-- 订单审核 -->
+    <bpmn:userTask id="Task_Review" name="订单审核">
+      <bpmn:incoming>Flow_ToReview</bpmn:incoming>
+      <bpmn:outgoing>Flow_ToGateway</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <!-- 排他网关：金额检查 -->
+    <bpmn:exclusiveGateway id="Gateway_Amount" name="金额检查">
+      <bpmn:incoming>Flow_ToGateway</bpmn:incoming>
+      <bpmn:outgoing>Flow_Large</bpmn:outgoing>
+      <bpmn:outgoing>Flow_Small</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <!-- 大额订单需要经理审批 -->
+    <bpmn:userTask id="Task_ManagerApproval" name="经理审批">
+      <bpmn:incoming>Flow_Large</bpmn:incoming>
+      <bpmn:outgoing>Flow_ToShipping</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <!-- 发货 -->
+    <bpmn:userTask id="Task_Shipping" name="发货">
+      <bpmn:incoming>Flow_ToShipping</bpmn:incoming>
+      <bpmn:incoming>Flow_Small</bpmn:incoming>
+      <bpmn:outgoing>Flow_ToEnd</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <!-- 结束事件 -->
+    <bpmn:endEvent id="End_Order" name="订单完成">
+      <bpmn:incoming>Flow_ToEnd</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <!-- 顺序流 -->
+    <bpmn:sequenceFlow id="Flow_ToReview" sourceRef="Start_Order" targetRef="Task_Review"/>
+    <bpmn:sequenceFlow id="Flow_ToGateway" sourceRef="Task_Review" targetRef="Gateway_Amount"/>
+    <bpmn:sequenceFlow id="Flow_Large" sourceRef="Gateway_Amount" targetRef="Task_ManagerApproval">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">amount &gt; 1000</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_Small" sourceRef="Gateway_Amount" targetRef="Task_Shipping">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">amount &lt;= 1000</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_ToShipping" sourceRef="Task_ManagerApproval" targetRef="Task_Shipping"/>
+    <bpmn:sequenceFlow id="Flow_ToEnd" sourceRef="Task_Shipping" targetRef="End_Order"/>
+  </bpmn:process>
+</bpmn:definitions>
