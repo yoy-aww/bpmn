@@ -18,10 +18,16 @@
 
   <properties>
     <java.version>17</java.version>
-    <flowable.version>6.8.1</flowable.version>
+    <flowable.version>7.1.0</flowable.version>
   </properties>
 
   <dependencies>
+    <!-- Spring Boot Web Server (确保内嵌 Tomcat 启动) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
     <!-- Flowable Spring Boot Starter -->
     <dependency>
       <groupId>org.flowable</groupId>
@@ -29,10 +35,10 @@
       <version>${flowable.version}</version>
     </dependency>
 
-    <!-- Flowable REST API -->
+    <!-- Flowable REST API (Spring Boot auto-configuration) -->
     <dependency>
       <groupId>org.flowable</groupId>
-      <artifactId>flowable-rest</artifactId>
+      <artifactId>flowable-spring-boot-starter-rest</artifactId>
       <version>${flowable.version}</version>
     </dependency>
 

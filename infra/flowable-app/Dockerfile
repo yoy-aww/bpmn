@@ -5,11 +5,9 @@
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# 复制 pom.xml 并先下载依赖（利用 Docker 缓存）
+# 复制 pom.xml 并下载依赖
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
-
-# 复制源码并构建
+# 跳过 go-offline（会尝试解析不存在的传递依赖），直接 package
 COPY src ./src
 RUN mvn package -DskipTests -B
 

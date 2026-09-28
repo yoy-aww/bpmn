@@ -45,7 +45,13 @@ export class FlowableRestClient implements FlowableClient {
       const text = await resp.text();
       throw new Error(`Flowable ${resp.status}: ${text}`);
     }
-    return (await resp.json()) as T;
+    const data: any = await resp.json();
+    // Flowable 7.x REST API returns paginated response {data: [...], total: N, ...}
+    // Unwrap to return just the data array
+    if (data && typeof data === 'object' && !Array.isArray(data) && Array.isArray(data.data)) {
+      return data.data as T;
+    }
+    return data as T;
   }
 
   async deploy(xml: string, name: string): Promise<ProcessDefinition> {
@@ -127,13 +133,13 @@ export class FlowableRestClient implements FlowableClient {
     if (opts?.processInstanceId) params.set('processInstanceId', opts.processInstanceId);
     if (opts?.assignee) params.set('assignee', opts.assignee);
     const query = params.toString() ? `?${params.toString()}` : '';
-    const list = await this.request<any[]>('GET', `/task${query}`);
+    const list = await this.request<any[]>('GET', `/runtime/tasks${query}`);
     return list.map(t => this.mapTask(t));
   }
 
   async getTask(id: string): Promise<UserTask | null> {
     try {
-      const task = await this.request<any>('GET', `/task/${id}`);
+      const task = await this.request<any>('GET', `/runtime/tasks/${id}`);
       return this.mapTask(task);
     } catch {
       return null;
@@ -144,13 +150,13 @@ export class FlowableRestClient implements FlowableClient {
     id: string,
     variables?: Record<string, any>,
   ): Promise<void> {
-    await this.request('POST', `/task/${id}/complete`, {
+    await this.request('POST', `/runtime/tasks/${id}/complete`, {
       variables: variables || {},
     });
   }
 
   async assignTask(id: string, assignee: string): Promise<void> {
-    await this.request('PUT', `/task/${id}/assignee`, { userId: assignee });
+    await this.request('PUT', `/runtime/tasks/${id}/assignee`, { userId: assignee });
   }
 
   async addComment(
@@ -158,7 +164,7 @@ export class FlowableRestClient implements FlowableClient {
     userId: string,
     message: string,
   ): Promise<TaskComment> {
-    const comment = await this.request<any>('POST', `/task/${taskId}/comment`, {
+    const comment = await this.request<any>('POST', `/runtime/tasks/${taskId}/comment`, {
       userId,
       message,
     });
@@ -173,7 +179,7 @@ export class FlowableRestClient implements FlowableClient {
   }
 
   async listComments(taskId: string): Promise<TaskComment[]> {
-    const list = await this.request<any[]>('GET', `/task/${taskId}/comment`);
+    const list = await this.request<any[]>('GET', `/runtime/tasks/${taskId}/comment`);
     return list.map(c => ({
       id: c.id,
       taskId,

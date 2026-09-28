@@ -19,3 +19,9 @@ flowable:
   database:
     schema-update: true
   event-reregister: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

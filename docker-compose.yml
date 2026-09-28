@@ -24,15 +24,12 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
-      - DB_URL=jdbc:mysql://mysql:3306/flowable?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-      - DB_USERNAME=flowable
-      - DB_PASSWORD=***
-      - DB_DRIVER=com.mysql.cj.jdbc.Driver
-      - DB_SCHEMA_UPDATE=true
-      - FLOWABLE_CHECK_ASYNC_EXECUTION_QUERIES=false
-      - LOG_LEVEL=INFO
+      - MODE=flowable
+      - FLOWABLE_URL=http://flowable:8080
+      - FLOWABLE_USER=flowable
+      - FLOWABLE_PASSWORD=***
     depends_on:
-      mysql:
+      flowable:
         condition: service_healthy
 
   flowable:
