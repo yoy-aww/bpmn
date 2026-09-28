@@ -622,6 +622,142 @@ body {
   background: var(--text-muted);
 }
 
+/* ============ BPMN 建模页浅色主题（scoped） ============ */
+
+/* 浅色主题变量（仅作用于 .bpmn-light 容器内） */
+.bpmn-light {
+  --light-bg: #ffffff;
+  --light-bg-alt: #f7f8fa;
+  --light-bg-hover: #eef2f7;
+  --light-border: #d0d4d9;
+  --light-text: #1a1d23;
+  --light-text-muted: #5a6069;
+  --light-accent: #2563eb;
+  --light-accent-hover: #1d4ed8;
+
+  background: var(--light-bg-alt);
+  color: var(--light-text);
+}
+
+/* 建模页工具栏（浅色） */
+.bpmn-light .toolbar {
+  background: var(--light-bg);
+  border-bottom: 1px solid var(--light-border);
+  color: var(--light-text);
+}
+
+.bpmn-light .toolbar .input {
+  background: var(--light-bg);
+  color: var(--light-text);
+  border: 1px solid var(--light-border);
+}
+
+.bpmn-light .toolbar .input:focus {
+  border-color: var(--light-accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  outline: none;
+}
+
+.bpmn-light .toolbar .input::placeholder {
+  color: var(--light-text-muted);
+  opacity: 0.8;
+}
+
+.bpmn-light .toolbar .btn {
+  background: var(--light-bg);
+  color: var(--light-text);
+  border: 1px solid var(--light-border);
+}
+
+.bpmn-light .toolbar .btn:hover:not(:disabled) {
+  background: var(--light-bg-hover);
+  border-color: var(--light-accent);
+  color: var(--light-text);
+}
+
+.bpmn-light .toolbar .btn-primary {
+  background: var(--light-accent);
+  color: #fff;
+  border-color: var(--light-accent);
+}
+
+.bpmn-light .toolbar .btn-primary:hover:not(:disabled) {
+  background: var(--light-accent-hover);
+  border-color: var(--light-accent-hover);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* 建模页侧边栏（浅色） */
+.bpmn-light .editor-sidebar {
+  background: var(--light-bg);
+  border-left: 1px solid var(--light-border);
+  color: var(--light-text);
+}
+
+.bpmn-light .editor-sidebar .sidebar-section {
+  border-bottom: 1px solid var(--light-border);
+}
+
+.bpmn-light .editor-sidebar .sidebar-title {
+  color: var(--light-text-muted);
+}
+
+.bpmn-light .editor-sidebar .btn {
+  background: var(--light-bg);
+  color: var(--light-text);
+  border: 1px solid var(--light-border);
+}
+
+.bpmn-light .editor-sidebar .btn:hover:not(:disabled) {
+  background: var(--light-bg-hover);
+  border-color: var(--light-accent);
+  color: var(--light-text);
+}
+
+.bpmn-light .editor-sidebar .modal,
+.bpmn-light .modal {
+  background: var(--light-bg);
+  color: var(--light-text);
+  border: 1px solid var(--light-border);
+}
+
+.bpmn-light .modal-title {
+  color: var(--light-text);
+  border-bottom: 1px solid var(--light-border);
+}
+
+.bpmn-light .modal .btn {
+  background: var(--light-bg);
+  color: var(--light-text);
+  border: 1px solid var(--light-border);
+}
+
+.bpmn-light .modal .btn:hover:not(:disabled) {
+  background: var(--light-bg-hover);
+  border-color: var(--light-accent);
+  color: var(--light-text);
+}
+
+/* 画布本身已经是浅色，无需再改，仅确保对比度 */
+.bpmn-light .editor-canvas {
+  background: var(--canvas-bg);
+}
+
+/* 建模页定义列表条目 */
+.bpmn-light .def-item {
+  border: 1px solid var(--light-border);
+}
+
+/* 窄屏抽屉条（浅色） */
+.bpmn-light .sidebar-drawer-bar {
+  background: var(--light-bg);
+  border-top: 1px solid var(--light-border);
+  color: var(--light-text);
+}
+
+/* XML 弹窗仍保持深色（代码阅读友好） */
+
 /* ============ BPMN 画布专用样式 ============ */
 
 /* 调色板：白色背景，深色图标（bpmn-js 默认风格） */

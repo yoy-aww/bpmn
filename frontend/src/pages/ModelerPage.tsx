@@ -72,7 +72,7 @@ export default function ModelerPage() {
   };
 
   return (
-    <div className="page">
+    <div className="page bpmn-light">
       <div className="toolbar">
         <input
           className="input"
@@ -109,7 +109,7 @@ export default function ModelerPage() {
           <div className="sidebar-section">
             <div className="sidebar-title">已部署流程</div>
             {definitions.length === 0 ? (
-              <div style={{ color: 'var(--text-muted)', fontSize: 12, padding: 8 }}>
+              <div style={{ color: 'var(--light-text-muted)', fontSize: 12, padding: 8 }}>
                 暂无已部署的流程。点击"部署流程"开始。
               </div>
             ) : (
@@ -117,18 +117,21 @@ export default function ModelerPage() {
                 {definitions.map(def => (
                   <div
                     key={def.id}
+                    className={`def-item${def.id === selectedDefId ? ' selected' : ''}`}
                     style={{
                       padding: '8px 10px',
-                      background: def.id === selectedDefId ? 'var(--bg-elevated)' : 'var(--bg)',
-                      border: '1px solid var(--border)',
+                      background: def.id === selectedDefId ? 'var(--light-bg-hover)' : 'var(--light-bg)',
+                      borderColor: def.id === selectedDefId ? 'var(--light-accent)' : 'var(--light-border)',
                       borderRadius: 6,
                       cursor: 'pointer',
                       fontSize: 13,
+                      color: 'var(--light-text)',
+                      transition: 'all 0.15s',
                     }}
                     onClick={() => handleLoadDefinition(def)}
                   >
-                    <div style={{ fontWeight: 600 }}>{def.name}</div>
-                    <div style={{ color: 'var(--text-muted)', fontSize: 11 }}>
+                    <div style={{ fontWeight: 600, color: 'var(--light-text)' }}>{def.name}</div>
+                    <div style={{ color: 'var(--light-text-muted)', fontSize: 11 }}>
                       key: {def.key} · v{def.version}
                     </div>
                   </div>
@@ -146,7 +149,7 @@ export default function ModelerPage() {
 
           <div className="sidebar-section">
             <div className="sidebar-title">提示</div>
-            <div style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6 }}>
+            <div style={{ fontSize: 12, color: 'var(--light-text-muted)', lineHeight: 1.6 }}>
               <div>• 左侧调色板拖拽元素到画布</div>
               <div>• 元素间用连线连接</div>
               <div>• 双击元素编辑名称</div>
@@ -162,7 +165,7 @@ export default function ModelerPage() {
         <div className="modal-overlay" onClick={() => setShowXml(false)}>
           <div className="modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 800 }}>
             <div className="modal-title">BPMN XML</div>
-            <pre className="xml-viewer">{currentXml}</pre>
+            <pre className="xml-viewer" style={{ background: '#0d1117', color: '#c9d1d9', border: '1px solid var(--light-border)' }}>{currentXml}</pre>
             <div className="modal-actions">
               <button className="btn" onClick={() => navigator.clipboard.writeText(currentXml)}>
                 复制
