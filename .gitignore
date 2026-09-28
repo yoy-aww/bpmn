@@ -7,6 +7,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+# 前端 TS 源与 Vite/TS 编译产物共存时，忽略源目录下的 .js 编译产物
+frontend/src/**/*.js
+
 # 环境变量（保留 .example）
 .env
 .env.local
