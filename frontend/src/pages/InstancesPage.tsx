@@ -15,6 +15,7 @@ export default function InstancesPage() {
   const [varKey, setVarKey] = useState('');
   const [varValue, setVarValue] = useState('');
   const [variables, setVariables] = useState<Record<string, any>>({});
+  const [view, setView] = useState<'list' | 'detail'>('list');
 
   const refresh = async () => {
     try {
@@ -32,6 +33,7 @@ export default function InstancesPage() {
 
   const handleSelectInstance = async (inst: ProcessInstance) => {
     setSelectedInstance(inst);
+    setView('detail');
     try {
       const acts = await api.instance.activities(inst.id);
       setActivities(acts);
@@ -94,12 +96,18 @@ export default function InstancesPage() {
         <button className="btn btn-primary" onClick={() => setShowStartModal(true)}>
           🚀 启动新实例
         </button>
-        <div style={{ flex: 1 }} />
+        <div className="spacer" style={{ flex: 1 }} />
         <button className="btn" onClick={refresh}>🔄 刷新</button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', flex: 1, overflow: 'hidden' }}>
-        <div style={{ overflow: 'auto', padding: 16 }}>
+      <div
+        className="instances-layout"
+        style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', flex: 1, overflow: 'hidden' }}
+      >
+        <div
+          className={`instances-list-panel${view === 'list' ? '' : ' mobile-hidden'}`}
+          style={{ overflow: 'auto', padding: 16 }}
+        >
           <div className="section-title" style={{ marginBottom: 12 }}>流程实例</div>
           {instances.length === 0 ? (
             <div className="empty-state">
@@ -107,6 +115,7 @@ export default function InstancesPage() {
               <p>点击"启动新实例"开始</p>
             </div>
           ) : (
+            <div className="table-scroll">
             <table className="table">
               <thead>
                 <tr>
@@ -133,13 +142,22 @@ export default function InstancesPage() {
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
 
-        <div style={{ borderLeft: '1px solid var(--border)', overflow: 'auto', padding: 16 }}>
+        <div
+          className={`instances-detail-panel${view === 'detail' ? '' : ' mobile-hidden'}`}
+          style={{ borderLeft: '1px solid var(--border)', overflow: 'auto', padding: 16 }}
+        >
           {selectedInstance ? (
             <>
-              <div className="section-title" style={{ marginBottom: 12 }}>实例详情</div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                <div className="section-title" style={{ margin: 0 }}>实例详情</div>
+                <button className="btn" style={{ fontSize: 12, padding: '6px 10px' }} onClick={() => setView('list')}>
+                  ← 返回列表
+                </button>
+              </div>
               <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '8px 12px', fontSize: 13, marginBottom: 20 }}>
                 <span style={{ color: 'var(--text-muted)' }}>ID</span>
                 <span style={{ fontFamily: 'monospace', fontSize: 11 }}>{selectedInstance.id}</span>

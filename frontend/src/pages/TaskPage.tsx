@@ -11,6 +11,7 @@ export default function TaskPage() {
   const [commentText, setCommentText] = useState('');
   const [newAssignee, setNewAssignee] = useState('');
   const [filterAssignee, setFilterAssignee] = useState('');
+  const [view, setView] = useState<'list' | 'detail'>('list');
 
   const refreshTasks = async () => {
     try {
@@ -27,6 +28,7 @@ export default function TaskPage() {
 
   const handleSelectTask = async (task: UserTask) => {
     setSelectedTask(task);
+    setView('detail');
     try {
       const c = await api.task.comments(task.id);
       setComments(c);
@@ -42,6 +44,7 @@ export default function TaskPage() {
       showToast(`任务完成: ${selectedTask.name}`, 'success');
       setSelectedTask(null);
       setComments([]);
+      setView('list');
       refreshTasks();
     } catch (err: any) {
       showToast(`完成失败: ${err.message}`, 'error');
@@ -82,12 +85,18 @@ export default function TaskPage() {
           value={filterAssignee}
           onChange={e => setFilterAssignee(e.target.value)}
         />
-        <div style={{ flex: 1 }} />
+        <div className="spacer" style={{ flex: 1 }} />
         <button className="btn" onClick={refreshTasks}>🔄 刷新</button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '360px 1fr', flex: 1, overflow: 'hidden' }}>
-        <div style={{ borderRight: '1px solid var(--border)', overflow: 'auto' }}>
+      <div
+        className="task-layout"
+        style={{ display: 'grid', gridTemplateColumns: '360px 1fr', flex: 1, overflow: 'hidden' }}
+      >
+        <div
+          className={`task-list-panel${view === 'list' ? '' : ' mobile-hidden'}`}
+          style={{ borderRight: '1px solid var(--border)', overflow: 'auto' }}
+        >
           <div className="task-list">
             {tasks.length === 0 ? (
               <div className="empty-state">
@@ -113,9 +122,18 @@ export default function TaskPage() {
           </div>
         </div>
 
-        <div style={{ overflow: 'auto' }}>
+        <div
+          className={`task-detail-panel${view === 'detail' ? '' : ' mobile-hidden'}`}
+          style={{ overflow: 'auto' }}
+        >
           {selectedTask ? (
             <div className="task-detail">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+                <div className="section-title" style={{ margin: 0 }}>任务详情</div>
+                <button className="btn" style={{ fontSize: 12, padding: '6px 10px' }} onClick={() => setView('list')}>
+                  ← 返回列表
+                </button>
+              </div>
               <div className="task-detail-section">
                 <div className="section-title">任务信息</div>
                 <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '8px 12px', fontSize: 13 }}>

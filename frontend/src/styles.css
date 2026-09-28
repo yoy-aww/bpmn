@@ -33,6 +33,9 @@ body {
   color: var(--text);
   font-size: 14px;
   line-height: 1.5;
+  /* 全面屏挖孔/圆角适配 */
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Layout */
@@ -747,4 +750,629 @@ body {
 /* 重叠层 overlay */
 .djs-overlay {
   /* 让 overlay 在浅色画布上可见 */
+}
+
+/* ============ Dashboard 仪表盘样式 ============ */
+
+/* ============ 平板 / 手机响应式适配 ============ */
+
+/* 平板：<= 1024px */
+@media (max-width: 1024px) {
+  .app-header {
+    padding: 0 16px;
+    height: 52px;
+  }
+
+  .app-title {
+    font-size: 16px;
+  }
+
+  .app-title::before {
+    font-size: 18px;
+  }
+
+  .nav-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .health-badge {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  .dashboard {
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .stat-icon {
+    font-size: 26px;
+    width: 46px;
+    height: 46px;
+  }
+
+  .stat-number {
+    font-size: 22px;
+  }
+
+  /* 平板上触摸目标过小（stat-link / panel-link 是 hover-only 链接，触屏点不到），改为常显 */
+  .stat-link,
+  .panel-link {
+    opacity: 1;
+  }
+
+  .dashboard-content {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .dashboard-panel {
+    padding: 14px;
+  }
+
+  /* 建模页：侧边栏收窄 */
+  .editor-layout {
+    grid-template-columns: 1fr 300px;
+  }
+
+  /* 任务页：列表列收窄 */
+  .task-layout {
+    grid-template-columns: 300px 1fr;
+  }
+
+  .toolbar {
+    padding: 10px 14px;
+  }
+}
+
+/* 手机 / 小屏平板竖屏：<= 768px */
+@media (max-width: 768px) {
+  body {
+    /* 触控设备：禁止误触双击放大 */
+    -webkit-touch-callout: none;
+  }
+
+  .app-header {
+    height: 52px;
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .app-title {
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .app-title::before {
+    font-size: 16px;
+    margin-right: 2px;
+  }
+
+  .app-nav {
+    gap: 2px;
+    padding: 3px;
+  }
+
+  .nav-btn {
+    padding: 8px 9px;
+    font-size: 12px;
+  }
+
+  .nav-btn .nav-label {
+    display: none;
+  }
+
+  /* 健康徽章窄屏只显示圆点 */
+  .health-badge {
+    padding: 4px;
+    border-radius: 50%;
+  }
+
+  .health-badge .health-text {
+    display: none;
+  }
+
+  /* 工具栏：纵向排布，输入框全宽 */
+  .toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .toolbar .input {
+    width: 100% !important;
+  }
+
+  .toolbar .spacer {
+    display: none;
+  }
+
+  /* 建模页：侧边栏变成可收起的抽屉 */
+  .editor-layout {
+    display: block;
+    position: relative;
+  }
+
+  .editor-canvas {
+    height: calc(100% - 44px);
+  }
+
+  .editor-sidebar {
+    position: absolute;
+    top: 96px; /* 52px header + 44px 抽屉条 */
+    right: 0;
+    bottom: 0;
+    width: min(85vw, 340px);
+    z-index: 50;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .editor-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-drawer-bar {
+    display: flex !important;
+  }
+
+  /* 抽屉遮罩：挡住画布点击，点击后收起 */
+  .drawer-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 40;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  /* 任务 / 实例页：上下堆叠，左右切换 */
+  .task-layout,
+  .instances-layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .task-list-panel,
+  .task-detail-panel,
+  .instances-list-panel,
+  .instances-detail-panel {
+    flex: 1;
+    min-height: 0;
+    border-right: none !important;
+    border-left: none !important;
+  }
+
+  .task-detail-panel,
+  .instances-detail-panel {
+    border-top: 1px solid var(--border);
+  }
+
+  /* 窄屏下未激活的列表/详情面板隐藏，避免两块同时挤压 */
+  .mobile-hidden {
+    display: none !important;
+  }
+
+  .task-detail {
+    padding: 14px;
+  }
+
+  /* 仪表盘堆叠 */
+  .dashboard {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .dashboard-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-card {
+    padding: 12px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .stat-card .stat-link {
+    width: 100%;
+    text-align: right;
+  }
+
+  /* 表格：横向滚动而不是挤爆 */
+  .table-scroll {
+    overflow: auto;
+  }
+
+  .table {
+    min-width: 520px;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px 10px;
+    font-size: 12px;
+  }
+
+  /* 模态框：手机底部抽屉形态 */
+  .modal-overlay {
+    align-items: flex-end;
+  }
+
+  .modal {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+    max-height: 90vh;
+    padding: 16px;
+  }
+
+  /* Toast 贴底部（不挡顶部操作区），宽度自适应 */
+  .toast-container {
+    top: auto;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    left: 12px;
+    right: 12px;
+  }
+
+  .toast {
+    min-width: 0;
+    width: 100%;
+  }
+
+  /* bpmn-js 调色板：加大触控目标 */
+  .djs-palette .entry {
+    width: 34px !important;
+    height: 34px !important;
+    margin: 5px !important;
+  }
+}
+
+/* 手机：<= 480px */
+@media (max-width: 480px) {
+  .dashboard-stats {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .stat-number {
+    font-size: 18px;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+  }
+
+  .quick-action {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .quick-action-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+}
+
+/* 触摸设备（含大屏手机横屏）：统一加大可点击区域，让 hover 态常显 */
+@media (hover: none) and (pointer: coarse) {
+  .nav-btn {
+    padding: 10px 14px;
+  }
+
+  .btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .task-card {
+    padding: 16px;
+  }
+
+  .stat-link,
+  .panel-link {
+    opacity: 1;
+  }
+
+  .stat-card:hover {
+    transform: none;
+  }
+}
+
+/* 侧边抽屉控制条（默认隐藏，窄屏显示） */
+.sidebar-drawer-bar {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  z-index: 45;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.sidebar-drawer-bar .drawer-chev {
+  transition: transform 0.25s;
+}
+
+.sidebar-drawer-bar.open .drawer-chev {
+  transform: rotate(180deg);
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+  padding: 24px;
+  gap: 20px;
+}
+
+/* 统计卡片 */
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.stat-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.stat-card:hover::before {
+  opacity: 1;
+}
+
+.stat-icon {
+  font-size: 32px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-elevated);
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.stat-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.stat-number {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.stat-link {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.stat-card:hover .stat-link {
+  opacity: 1;
+}
+
+/* 内容区域 */
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 16px;
+  flex: 1;
+  min-height: 0;
+}
+
+.dashboard-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.panel-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.panel-header .panel-title {
+  margin-bottom: 0;
+}
+
+.panel-link {
+  font-size: 12px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.panel-link:hover {
+  text-decoration: underline;
+}
+
+/* 快速操作 */
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quick-action {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.2s;
+}
+
+.quick-action:hover {
+  border-color: var(--accent);
+  background: var(--bg);
+  transform: translateX(4px);
+}
+
+.quick-action-icon {
+  font-size: 24px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(74, 158, 255, 0.1);
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.quick-action-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.quick-action-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* 条目列表 */
+.item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: auto;
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.15s;
+}
+
+.item-row:hover {
+  border-color: var(--accent);
+}
+
+.item-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.empty-hint {
+  color: var(--text-muted);
+  font-size: 13px;
+  text-align: center;
+  padding: 24px;
 }

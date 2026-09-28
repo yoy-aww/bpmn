@@ -11,23 +11,31 @@ export default function Header() {
       .catch(() => setHealth({ ok: false, engine: 'unknown', mode: 'unknown' }));
   }, []);
 
+  const navItems = [
+    { to: '/dashboard', icon: '📊', label: '仪表盘' },
+    { to: '/modeler', icon: '📝', label: '流程建模' },
+    { to: '/tasks', icon: '✅', label: '任务处理' },
+    { to: '/instances', icon: '📊', label: '流程实例' },
+  ];
+
   return (
     <header className="app-header">
       <div className="app-title">BPMN 工作流平台</div>
       <nav className="app-nav">
-        <NavLink to="/modeler" className={({ isActive }) => `nav-btn${isActive ? ' active' : ''}`}>
-          📝 流程建模
-        </NavLink>
-        <NavLink to="/tasks" className={({ isActive }) => `nav-btn${isActive ? ' active' : ''}`}>
-          ✅ 任务处理
-        </NavLink>
-        <NavLink to="/instances" className={({ isActive }) => `nav-btn${isActive ? ' active' : ''}`}>
-          📊 流程实例
-        </NavLink>
+        {navItems.map(item => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            className={({ isActive }) => `nav-btn${isActive ? ' active' : ''}`}
+            title={item.label}
+          >
+            {item.icon} <span className="nav-label">{item.label}</span>
+          </NavLink>
+        ))}
       </nav>
-      <div className="health-badge">
+      <div className="health-badge" title={health ? `${health.mode} · ${health.engine}` : '检测中...'}>
         <span className={`health-dot${health?.ok ? ' ok' : ''}`} />
-        <span>{health ? `${health.mode} · ${health.engine}` : '检测中...'}</span>
+        <span className="health-text">{health ? `${health.mode} · ${health.engine}` : '检测中...'}</span>
       </div>
     </header>
   );

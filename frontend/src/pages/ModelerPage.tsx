@@ -13,6 +13,7 @@ export default function ModelerPage() {
   const [definitions, setDefinitions] = useState<ProcessDefinition[]>([]);
   const [deploying, setDeploying] = useState(false);
   const [selectedDefId, setSelectedDefId] = useState<string | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleDeploy = async () => {
     if (!name.trim()) {
@@ -83,7 +84,7 @@ export default function ModelerPage() {
         <button className="btn btn-primary" onClick={handleDeploy} disabled={deploying}>
           {deploying ? '部署中...' : '🚀 部署流程'}
         </button>
-        <div style={{ flex: 1 }} />
+        <div className="spacer" style={{ flex: 1 }} />
         <button className="btn" onClick={handleExport}>📋 查看 XML</button>
         <button className="btn" onClick={handleClear}>🗑️ 清空</button>
       </div>
@@ -91,9 +92,20 @@ export default function ModelerPage() {
       <div className="editor-layout">
         <div className="editor-canvas">
           <BpmnEditor ref={editorRef} onChange={setCurrentXml} />
+          <button
+            className={`sidebar-drawer-bar${sidebarOpen ? ' open' : ''}`}
+            onClick={() => setSidebarOpen(o => !o)}
+          >
+            <span className="drawer-chev">»</span>
+            <span>已部署流程 ({definitions.length})</span>
+          </button>
         </div>
 
-        <div className="editor-sidebar">
+        {sidebarOpen && (
+          <div className="drawer-backdrop" onClick={() => setSidebarOpen(false)} />
+        )}
+
+        <div className={`editor-sidebar${sidebarOpen ? ' open' : ''}`}>
           <div className="sidebar-section">
             <div className="sidebar-title">已部署流程</div>
             {definitions.length === 0 ? (
