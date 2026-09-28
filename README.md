@@ -59,7 +59,7 @@ pnpm dev
 cd frontend
 pnpm install
 pnpm dev
-# → http://localhost:5173
+# → http://localhost:5174
 ```
 
 ### 3. 可选：启动 Flowable 引擎
@@ -87,9 +87,8 @@ BPMN/
 │   │   ├── main.tsx
 │   │   ├── components/
 │   │   │   ├── BpmnEditor.tsx          # 建模器
-│   │   │   ├── BpmnViewer.tsx          # 只读查看
-│   │   │   ├── TaskPanel.tsx           # 任务面板
-│   │   │   └── ProcessInstances.tsx    # 流程实例
+│   │   │   ├── Header.tsx              # 顶部导航 + 健康状态
+│   │   │   └── Toast.tsx               # 通知
 │   │   ├── pages/
 │   │   │   ├── ModelerPage.tsx
 │   │   │   ├── TaskPage.tsx

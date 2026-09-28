@@ -118,7 +118,7 @@ cd backend && pnpm install && pnpm dev
 # 前端
 cd frontend && pnpm install && pnpm dev
 
-# 访问 http://localhost:5173
+# 访问 http://localhost:5174
 ```
 
 ### 本地开发 (Flowable 模式)

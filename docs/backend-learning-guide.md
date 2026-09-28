@@ -121,7 +121,7 @@ DB_PASSWORD=***
 PORT=3000
 
 # ── CORS ──
-ALLOWED_ORIGINS=http://localhost:5173
+ALLOWED_ORIGINS=http://localhost:5174
 ```
 
 `.env` 文件通过 `dotenv` 包在 `config.ts` 中加载：
