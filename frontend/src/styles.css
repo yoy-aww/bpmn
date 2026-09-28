@@ -1,17 +1,18 @@
 :root {
-  --bg: #1a1d23;
-  --bg-card: #242830;
-  --bg-elevated: #2d323c;
-  --border: #3a3f4b;
-  --text: #e4e6eb;
-  --text-muted: #9aa0aa;
-  --accent: #4a9eff;
-  --accent-hover: #3b8de6;
-  --success: #4caf50;
-  --warning: #ff9800;
-  --error: #f44336;
+  /* 全站默认浅色主题 */
+  --bg: #f7f8fa;
+  --bg-card: #ffffff;
+  --bg-elevated: #eef2f7;
+  --border: #d0d4d9;
+  --text: #1a1d23;
+  --text-muted: #5a6069;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --success: #16a34a;
+  --warning: #d97706;
+  --error: #dc2626;
 
-  /* 画布浅色主题（BPMN 业界惯例，bpmn-js 默认风格） */
+  /* BPMN 画布浅色主题（bpmn-js 业界惯例） */
   --canvas-bg: #f5f6f8;
   --canvas-grid: #e1e4e8;
 }
@@ -99,7 +100,7 @@ body {
 .nav-btn.active {
   background: var(--accent);
   color: white;
-  box-shadow: 0 2px 8px rgba(74, 158, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
 }
 
 .health-badge {
@@ -118,18 +119,18 @@ body {
   height: 8px;
   border-radius: 50%;
   background: var(--error);
-  box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2);
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
 }
 
 .health-dot.ok {
   background: var(--success);
-  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
   animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2); }
-  50% { box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.4); }
+  0%, 100% { box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2); }
+  50% { box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.4); }
 }
 
 .app-content {
@@ -183,7 +184,7 @@ body {
 .btn-primary:hover {
   background: var(--accent-hover);
   border-color: var(--accent-hover);
-  box-shadow: 0 2px 8px rgba(74, 158, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
 }
 
 .btn-danger {
@@ -204,7 +205,7 @@ body {
 }
 
 .btn-success:hover {
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.3);
 }
 
 .btn:disabled {
@@ -226,7 +227,7 @@ body {
 
 .input:focus, .select:focus, .textarea:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
 .input::placeholder, .textarea::placeholder {
@@ -299,27 +300,27 @@ body {
 }
 
 .badge-active {
-  background: rgba(76, 175, 80, 0.15);
+  background: rgba(22, 163, 74, 0.12);
   color: var(--success);
-  border: 1px solid rgba(76, 175, 80, 0.3);
+  border: 1px solid rgba(22, 163, 74, 0.3);
 }
 
 .badge-completed {
-  background: rgba(74, 158, 255, 0.15);
+  background: rgba(37, 99, 235, 0.12);
   color: var(--accent);
-  border: 1px solid rgba(74, 158, 255, 0.3);
+  border: 1px solid rgba(37, 99, 235, 0.3);
 }
 
 .badge-terminated {
-  background: rgba(244, 67, 54, 0.15);
+  background: rgba(220, 38, 38, 0.12);
   color: var(--error);
-  border: 1px solid rgba(244, 67, 54, 0.3);
+  border: 1px solid rgba(220, 38, 38, 0.3);
 }
 
 .badge-suspended {
-  background: rgba(255, 152, 0, 0.15);
+  background: rgba(217, 119, 6, 0.12);
   color: var(--warning);
-  border: 1px solid rgba(255, 152, 0, 0.3);
+  border: 1px solid rgba(217, 119, 6, 0.3);
 }
 
 /* Editor */
@@ -1438,7 +1439,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(74, 158, 255, 0.1);
+  background: rgba(37, 99, 235, 0.1);
   border-radius: 10px;
   flex-shrink: 0;
 }
